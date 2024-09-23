@@ -21,10 +21,22 @@ QBITTORRENT_PASSWORD = os.getenv('QBITTORRENT_PASSWORD')
 QBITTORRENT_URL = f"{QBITTORRENT_HOST}:{QBITTORRENT_PORT}"
 
 # Ottieni i percorsi di salvataggio dal file epn.env
-TORRENT_SAVE_DIR = Path(os.getenv('TORRENT_SAVE_DIR', '/root/test/file_torrent'))
-POSTER_SAVE_DIR = Path(os.getenv('POSTER_SAVE_DIR', '/root/test/poster_dir'))
-TORRENT_SAVE_PATH = Path(os.getenv('TORRENT_SAVE_PATH', '/root/test'))  # Nuova variabile per il percorso di salvataggio
+TORRENT_SAVE_DIR = Path(os.getenv('TORRENT_SAVE_DIR'))  # Percorso per salvare i file torrent creati
+POSTER_SAVE_DIR = Path(os.getenv('POSTER_SAVE_DIR'))    # Percorso per salvare i poster scaricati
+TORRENT_SAVE_PATH = Path(os.getenv('TORRENT_SAVE_PATH'))  # Percorso generale di salvataggio
 
+# Controlla che i percorsi siano validi, altrimenti stampa un messaggio di errore
+if not TORRENT_SAVE_DIR.exists():
+    print(f"Errore: Directory TORRENT_SAVE_DIR non disponibile: {TORRENT_SAVE_DIR}")
+if not POSTER_SAVE_DIR.exists():
+    print(f"Errore: Directory POSTER_SAVE_DIR non disponibile: {POSTER_SAVE_DIR}")
+if not TORRENT_SAVE_PATH.exists():
+    print(f"Errore: Directory TORRENT_SAVE_PATH non disponibile: {TORRENT_SAVE_PATH}")
+
+# Crea le directory se non esistono
+TORRENT_SAVE_DIR.mkdir(parents=True, exist_ok=True)
+POSTER_SAVE_DIR.mkdir(parents=True, exist_ok=True)
+TORRENT_SAVE_PATH.mkdir(parents=True, exist_ok=True)
 # TMDB API Key dal file epn.env
 TMDB_API_KEY = os.getenv('TMDB_APIKEY')
 
