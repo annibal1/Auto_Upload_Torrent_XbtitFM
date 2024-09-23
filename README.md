@@ -1,86 +1,113 @@
-Detailed Guide to Installing and Using the Automatic Torrent Creation and Seed Script
+Here's an updated version of the guide that includes instructions for using the script on both Ubuntu and Windows systems. I've integrated the Windows version of the script, which uses the same general workflow but with compatibility adjustments for Windows environments. Detailed Guide to Installing and Using the Automatic Torrent Creation and Seed Script
 
-This guide will provide you with detailed instructions on how to install and use the Python script that automatically creates torrent files, uploads them to a site, and adds them to qBittorrent for seeding. The script is designed to run on Ubuntu systems, using mktorrent to create torrent files and qbittorrent-nox as a torrent client. The detailed steps for installation and use are listed below.
-1. Prerequisites
+This guide provides detailed instructions on how to install and use the Python script that automatically creates torrent files, uploads them to a site, and adds them to qBittorrent for seeding. The script is compatible with both Ubuntu and Windows systems, with specific instructions for each environment. Follow the steps below to set up and use the script on your preferred platform.
 
-Before starting, make sure you have access to an Ubuntu server (or a Linux-compatible system) and that you have Python 3 installed. Additionally, you will need the following dependencies:
+    Prerequisites
 
-mktorrent to create torrent files.
-qbittorrent-nox as a torrent client.
-Python 3 with pip installed.
+Before starting, ensure you have access to your preferred system (either Ubuntu or Windows) and Python 3 installed. The dependencies required are:
 
-If you do not have Python 3 and pip, install them using:
+For Ubuntu: mktorrent to create torrent files and qbittorrent-nox as a torrent client without a graphical interface.
+For Windows: Python 3 with torrentool to create torrent files and qbittorrent-api to interact with the qBittorrent client.
+
+If you do not have Python 3 and pip installed, you can set them up as follows: Installing Python 3 and pip
+
+Ubuntu:
+
+bash
+
 sudo apt-get update
 sudo apt-get install python3 python3-pip
 
-2. Installing Dependencies
-Step 1: Installing mktorrent and qbittorrent-nox
+Windows: Download and install Python 3 from the official Python website: https://www.python.org/downloads/. Ensure you select the option to install pip during the setup.
 
-mktorrent is used for creating torrent files, while qbittorrent-nox is a torrent client without a graphical interface. Both software are installed directly from the Ubuntu package manager.
+    Installing Dependencies Ubuntu Step 1: Installing mktorrent and qbittorrent-nox
 
-Run the following commands to install them:
-sudo apt-get update
-sudo apt-get install mktorrent qbittorrent-nox
+mktorrent is used for creating torrent files, and qbittorrent-nox is a torrent client without a graphical interface. Install both using the Ubuntu package manager:
+
+bash
+
+sudo apt-get update sudo apt-get install mktorrent qbittorrent-nox
 
 Step 2: Installing Python Dependencies
 
-To simplify the installation of Python dependencies, the script uses a requirements.txt file. You can install all the necessary dependencies with a single command.
+Use the requirements.txt file to install the required Python libraries. Run the following command:
+
+bash
+
 pip install -r requirements.txt
 
-This command will install all the necessary libraries such as beautifulsoup4, qbittorrent-api, requests, lxml and python-dotenv.
-3. Configuring the Script
-Step 1: Creating the .env file
+This will install libraries like beautifulsoup4, qbittorrent-api, requests, lxml, python-dotenv, and torrentool. Windows Step 1: Installing Python Dependencies
 
-The script uses a .env file to load the necessary environment variables. This file contains configuration information such as qBittorrent credentials, URLs and API keys.
-The epn.env file is in the same directory as the script and has the following content:
+For Windows, the script uses a requirements.txt file to simplify dependency installation. Run the following command in your terminal:
 
-BITTORRENT_HOST=http://localhost
-QBIT_PORT=8080
-QBITTORRENT_USER=il_tuo_username
-QBITTORRENT_PASSWORD=la_tua_password
-TMDB_APIKEY=la_tua_chiave_api_tmdb
-UPLOAD_URL=https://esempio.com/upload
-DOWNLOAD_URL_BASE=https://esempio.com/
-ANNOUNCE_URL=http://esempio.com:2710/announce
-TORRENT_SAVE_DIR=/root/test/file_torrent
-POSTER_SAVE_DIR=/root/test/poster_dir
+bash
 
-BITTORRENT_HOST: URL of the qBittorrent server (usually http://localhost or the IP address of the server).
-QBIT_PORT: The port on which qBittorrent is running (default 8080).
-QBITTORRENT_USER and QBITTORRENT_PASSWORD: qBittorrent login credentials.
-TMDB_APIKEY: Your API key for TMDB (The Movie Database), used to get movie descriptions.
-UPLOAD_URL: URL to upload the torrent file to the site.
-DOWNLOAD_URL_BASE: Base URL to download torrent files from the site.
-ANNOUNCE_URL: URL of the announcer for the torrent tracker.
-TORRENT_SAVE_DIR: Directory where the torrent files will be saved.
-POSTER_SAVE_DIR: Directory where the posters downloaded from TMDB will be saved.
+pip install -r requirements.txt
 
-Step 2: Creating the categories file
-The script uses a categories_config.json file to map category names to their respective IDs on the site. Create a categories_config.json file and enter your site's categories, for example:
-{
-  "bluray": 40,
-  "4k": 42,
-  "dvdrip": 15,
-  "quotidiani": 36
-}
-4. Running the Script
+This will install all necessary dependencies including beautifulsoup4, qbittorrent-api, requests, lxml, python-dotenv, and torrentool. 3. Configuring the Script Step 1: Creating the .env file
 
-After you have everything configured, you can run the script using the python3 command. You need to specify two parameters: the category name (for example, bluray) and the directory of the movie to be converted into a torrent.
+The script requires a .env file to load necessary environment variables. This file includes configuration details such as qBittorrent credentials, API keys, and URLs. Create a file named epn.env in the same directory as the script with the following content:
+
+plaintext
+qBittorrent Settings
+
+BITTORRENT_HOST=http://127.0.0.1 QBITTORRENT_USER=your_qbittorrent_username # Replace with your qBittorrent username QBITTORRENT_PASSWORD=your_qbittorrent_password # Replace with your qBittorrent password QBIT_PORT=8080 # Default port for qBittorrent
+TMDB API Key
+
+TMDB_APIKEY=your_tmdb_api_key # Replace with your TMDB API key
+Cookies for Site Authentication
+
+COOKIES=uid=your_uid;pass=your_pass # Replace with your site's authentication cookies
+URLs for Upload and Download
+
+UPLOAD_URL=https://example.com/upload # Replace with your upload URL DOWNLOAD_URL_BASE=https://example.com/ # Replace with your site's base download URL ANNOUNCE_URL=http://example.com:2710/announce # Replace with your tracker announce URL
+Request Headers
+
+USER_AGENT=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3 REFERER=https://example.com/upload # Replace with your referer URL
+Directories for Files and Torrents
+
+POSTER_SAVE_DIR=C:\Path\To\Posters # Directory where downloaded posters will be saved TORRENT_SAVE_DIR=C:\Path\To\Torrents # Directory where created torrent files will be saved TORRENT_DOWNLOAD_DIR=C:\Path\To\DownloadedTorrents # Directory where torrents downloaded from the site will be saved
+
+Step 2: Creating the Categories File
+
+The script uses a categories_config.json file to map category names to their respective IDs on the site. Create this file with your site's categories:
+
+json
+
+{ "bluray": 40, "4k": 42, "dvdrip": 15, "quotidiani": 36 }
+
+    Running the Script Ubuntu
+
+Run the script using Python 3. You need to specify two parameters: the category name (e.g., bluray) and the directory of the movie you want to convert into a torrent.
 
 Example:
+
+bash
+
 python3 start.py bluray /root/test/Cintura.nera.2024.iTALiAN.WEB-DL
-The script will do the following:
 
-Create a torrent file using mktorrent and save it to the directory specified in TORRENT_SAVE_DIR.
-Upload the torrent file to the site using the upload API provided in the .env file.
-Download the torrent file from the site and add it to qBittorrent for seeding.
-Perform a recheck of the files on qBittorrent to make sure the files match the torrent.
-Force a second recheck after 2 minutes to make sure everything is configured correctly.
+Windows
 
-5. Troubleshooting
+Run the script from the command line. Make sure to specify the paths using double quotes if they contain spaces.
 
-Authentication error on qBittorrent: Make sure the login credentials in the .env file are correct.
-TMDB does not return any results: Verify that your TMDB API key is valid and that the movie name is formatted correctly.
-Torrent does not seed: Verify that the save path (TORRENT_SAVE_DIR and POSTER_SAVE_DIR) is correct and that the files are present.
-By following these steps, you will be able to install, configure and use the script on Ubuntu to automate torrent creation and seeding.
+Example:
 
+bash
+
+python start.py bluray "D:\Film\BluRay\Il Gladiatore (10th Anniversary Edition)"
+
+Script Workflow
+
+Create a Torrent File: The script creates a torrent using mktorrent (Ubuntu) or torrentool (Windows) and saves it in the directory specified in TORRENT_SAVE_DIR.
+Upload the Torrent: The script uploads the torrent file to the site using the URL provided in the .env file.
+Download the Torrent: It downloads the newly generated torrent file from the site and adds it to qBittorrent for seeding.
+Recheck the Files: The script performs a recheck on qBittorrent to ensure the files match the torrent.
+Force a Second Recheck: After 2 minutes, it forces a second recheck to verify everything is set up correctly.
+
+    Troubleshooting
+
+    Authentication Error on qBittorrent: Verify that the login credentials in the .env file are correct. TMDB Search Issues: Check that your TMDB API key is valid and that the movie title is correctly formatted. Torrent Does Not Seed: Ensure that the save paths (TORRENT_SAVE_DIR and POSTER_SAVE_DIR) are correct and that the files are present.
+
+By following this guide, you will be able to install, configure, and use the script on either Ubuntu or Windows systems to automate torrent creation and seeding.
+
+This updated guide provides the steps for using the script on both Ubuntu and Windows, ensuring compatibility with different environments.
