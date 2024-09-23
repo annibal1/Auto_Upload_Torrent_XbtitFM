@@ -1,5 +1,6 @@
-beautifulsoup4==4.10.0
-qbittorrent-api==2022.4.5
-requests==2.26.0
-lxml==4.6.3
-python-dotenv==0.19.2
+beautifulsoup4==4.12.3
+qbittorrent-api==2024.9.66
+requests==2.32.3
+lxml==5.3.0
+python-dotenv==1.0.1
+torrentool==1.2.0
